@@ -1,0 +1,59 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: su-sat-ns-3
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-world
+  namespace: su-sat-ns-3
+  labels:
+    razee/watch-resource: lite
+spec:
+  selector:
+      matchLabels:
+        app: hello-world
+  replicas: 1 
+  template:
+    metadata:
+      labels:
+        app: hello-world
+    spec:
+      containers:
+      - name: hello-world-pod
+        image: agrawals18/helloworld:v2
+        ports: 
+        - containerPort: 80
+        - containerPort: 443
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello-world-service
+  namespace: su-sat-ns-3
+  labels:
+    razee/watch-resource: lite
+spec:
+  selector:
+    app: hello-world
+  ports:
+  - name: http
+    protocol: TCP
+    port: 80
+    targetPort: 8080
+  type: LoadBalancer
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: hw-route
+  namespace: su-sat-ns-3
+  labels:
+    razee/watch-resource: lite
+spec:
+  to:
+    kind: Service
+    name: hello-world-service
+  port:
+    targetPort: 8080
