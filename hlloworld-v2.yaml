@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: hello-world
+  name: hello-world-2
 spec:
   selector:
       matchLabels:
-        app: hello-world
+        app: hello-world-2
   replicas: 1 
   template:
     metadata:
       labels:
-        app: hello-world
+        app: hello-world-2
     spec:
       containers:
-      - name: hello-world-pod
+      - name: hello-world-pod-2
         image: agrawals18/helloworld:v2
         ports: 
         - containerPort: 80
@@ -22,10 +22,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: hello-world-service
+  name: hello-world-service-2
 spec:
   selector:
-    app: hello-world
+    app: hello-world-2
   ports:
   - name: http
     protocol: TCP
@@ -36,10 +36,10 @@ spec:
 apiVersion: route.openshift.io/v1
 kind: Route
 metadata:
-  name: hw-route
+  name: hw-route-2
 spec:
   to:
     kind: Service
-    name: hello-world-service
+    name: hello-world-service-2
   port:
     targetPort: 8080
