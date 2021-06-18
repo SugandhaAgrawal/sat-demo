@@ -39,15 +39,3 @@ spec:
     port: 80
     targetPort: 8080
   type: LoadBalancer
----
-apiVersion: route.openshift.io/v1
-kind: Route
-metadata:
-  name: hw-route
-  namespace: su-anthos
-spec:
-  to:
-    kind: Service
-    name: hello-world-service
-  port:
-    targetPort: 8080
